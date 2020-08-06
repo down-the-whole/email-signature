@@ -1,4 +1,9 @@
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
+import { useContext } from 'react'
+import map from 'lodash/map'
+
+import { store } from '../store'
+import User from '../user'
 
 const ProfilePic = (props: {
     px: number,
@@ -22,24 +27,82 @@ const ProfilePic = (props: {
     )
 }
 
-const UserInfo = (props: {
-    name: string,
-    title: string,
-    motto: string,
-    email: string,
-    phone: string,
-    website: string,
-}) => {
-    const options = {
-        name: 'John Doe',
-        title: 'software engineer',
-        motto: 'do the thing',
-        email: 'sample@domain.com',
-        phone: '+15555555555',
-        website: 'https://google.com'
-    }
+type DividerType = 'Top' | 'Bottom'
 
-    Object.assign(options, props)
+
+const DividerLine = (type: DividerType) => (
+    <tr>
+        <td
+            colSpan={2}
+            style={{
+                borderTop: type === 'Top' ? '1px solid rgb(0,0,0)' : '0px',
+                borderBottom: type === 'Bottom' ? '1px solid rgb(0,0,0)' : '0px',
+                height: '3px',
+            }}
+        >
+        </td>
+    </tr>
+)
+
+const renderLink = (imageUrl: string, url: string) => {
+    console.log(imageUrl, url)
+
+    return (
+        <td style={{
+            paddingRight: '5px',
+        }}>
+            <a
+                href={url}
+                style={{
+                    float: 'left',
+                }}
+                target="_blank"
+            >
+                <img
+                    height="28"
+                    src={imageUrl}
+                />
+            </a>
+        </td>
+    )
+}
+
+const Links = () => {
+    const { state } : { state: User } = useContext(store)
+
+    console.log(state.links)
+
+    return (
+        <tr>
+            <td style={{
+                padding: '12px 0px 0px',
+                letterSpacing: '0.6px',
+                fontSize: '14px'
+            }}>
+                Find me:
+            </td>
+            <td
+                style={{
+                    padding: '10px 0px 0px'
+                }}>
+                <tr>
+                    {
+                        map(
+                            state.links,
+                            (link, key) => renderLink(
+                                link.imageUrl,
+                                link.url
+                            ),
+                        )
+                    }
+                </tr>
+            </td>
+        </tr>
+    )
+}
+
+const UserInfo = () => {
+    const { state } = useContext(store)
 
     return (
         <td>
@@ -51,7 +114,7 @@ const UserInfo = (props: {
                     margin: '0px 0px 2px',
                 }}
             >
-                {options.name.toUpperCase()}
+                {state.name.toUpperCase()}
             </div>
 
             <div
@@ -61,13 +124,13 @@ const UserInfo = (props: {
                     margin: '0px 0px 14px',
                 }}
             >
-                {options.title}
+                {state.title}
 
                 <br/>
 
                 <br/>
 
-                {options.motto}
+                {state.motto}
             </div>
 
             <div
@@ -77,78 +140,73 @@ const UserInfo = (props: {
                 }}
             >
                 <a
-                    href={`tel:${options.phone}`}
+                    href={`tel:${state.phone}`}
                 >
-                    {formatPhoneNumberIntl(options.phone)}
+                    {formatPhoneNumberIntl(state.phone)}
                 </a>
 
                 <br/>
 
                 <a
-                    href={`mailto:${options.email}`}
+                    href={`mailto:${state.email}`}
                     style={{
                         color: 'rgb(0,0,0)'
                     }}
                     target="_blank"
                 >
-                    {options.email}
+                    {state.email}
                 </a>
 
                 <br/>
 
                 <a
-                    href={options.website}
+                    href={state.website}
                     style={{
                         color: 'rgb(0,0,0)'
                     }}
                     target="_blank"
                 >
-                    {options.website}
+                    {state.website}
                 </a>
             </div>
         </td>
     )
 }
 
-export const Table = (props: {}) => {
+export default (props: {}) => {
     const tableStyles = {
         color: 'rgb(0, 0, 0)',
         letterSpacing: 'normal',
         fontFamily: [
+            'Avenir Next',
+            'Avenir',
+            'Helvetica',
+            'sans-serif',
             '-apple-system',
             'BlinkMacSystemFont',
             '"Segoe UI"',
             'Roboto',
-            'Helvetica',
-            'Arial',
-            'sans-serif',
             '"Apple Color Emoji"',
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
-        ].join(' '),
+        ].join(','),
         fontSize: '12px',
         margin: '20px 0px 0px',
     }
 
     return (
-        <table style={tableStyles}>
-            <tbody>
-                <tr>
-                    <td
-                        colSpan={2}
-                        style={{
-                            borderTop: '1px solid rgb(0,0,0)',
-                            lineHeight: '8px'
-                        }}
-                    >
-                            &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    {ProfilePic({})}
-                    {UserInfo()}
-                </tr>
-            </tbody>
-        </table>
+        <div className="signature">
+            <table style={tableStyles}>
+                <tbody>
+                    {DividerLine('Top')}
+                    <tr>
+                        {ProfilePic()}
+                        {UserInfo()}
+                    </tr>
+                    {DividerLine('Bottom')}
+                    {Links()}
+                </tbody>
+            </table>
+        </div>
     )
 }

@@ -18,6 +18,14 @@ module.exports = {
         filename: '[name].js',
         path: resolve('dist'),
     },
+    resolve: {
+        extensions: [
+            '.js',
+            '.jsx',
+            '.ts',
+            '.tsx',
+        ],
+    },
     module: {
         rules: [
             {
@@ -34,11 +42,16 @@ module.exports = {
                 }]
             },
             {
-                test: /\.css$/,
+                test: /\.s[ac]ss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader'
-                ]
+                    // // Creates `style` nodes from JS strings
+                    // MiniCssExtractPlugin.loader,
+                    'style-loader',
+                    // Translates CSS into CommonJS
+                    'css-loader',
+                    // Compiles Sass to CSS
+                    'sass-loader',
+                ],
             }
         ]
     },
