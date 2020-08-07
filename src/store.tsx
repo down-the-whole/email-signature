@@ -3,7 +3,7 @@ import {
     useReducer,
 } from 'react'
 
-import User from './user'
+import User, { LinkMap } from './user'
 
 const initialState = new User()
 
@@ -12,15 +12,13 @@ const store = createContext(initialState);
 const { Provider } = store;
 
 type UserAction = {
-    type: 'user_mod',
+    type: 'user_mod'
     user: User
 }
 
 type LinkAction = {
-    type: 'user_link_mod',
-    linkKey: string,
-    linkImageUrl: string,
-    linkUrl: string,
+    type: 'user_links_mod'
+    links: LinkMap
 }
 
 const StateProvider = ( { children } ) => {
@@ -35,16 +33,10 @@ const StateProvider = ( { children } ) => {
             switch(action.type) {
             case 'user_mod':
                 return action.user;
-            case 'user_link_mod'
+            case 'user_links_mod':
                 return {
                     ...state,
-                    links: {
-                        ...state.links,
-                        [action.linkKey]: {
-                            imageUrl: action.linkImageUrl,
-                            url: action.linkUrl,
-                        }
-                    }
+                    links: action.links,
                 }
             default:
                 throw new Error();

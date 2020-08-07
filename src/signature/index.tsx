@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { store } from '../store'
 import AccentPic from './accent-pic'
 import { Links } from './links'
-import { DividerLine } from './utils'
+import { DividerLine } from '../utils'
 
 const UserInfo = () => {
     const { state } = useContext(store)

@@ -5,6 +5,8 @@ import User from '../user'
 import { store } from '../store'
 import EditorConfig, { FormItem } from './config'
 
+import Links from './links'
+
 export default () => {
     const { state, dispatch } = useContext(store)
 
@@ -71,6 +73,10 @@ export default () => {
                     }
                 )
             }
+
+            <br/>
+
+            <Links/>
         </div>
     )
 }

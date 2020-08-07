@@ -4,7 +4,6 @@ export class Link {
     imageUrl: string = ''
     url: string = ''
     onChange: Function = () => {}
-    value = ''
 
     constructor({
         url,
@@ -35,7 +34,10 @@ export class Link {
 }
 
 export class LinkMap {
-    [s: string]: Link
+    Facebook: Link
+    Blog: Link
+    Instagram: Link
+    Twitter: Link
 }
 
 export default class User {

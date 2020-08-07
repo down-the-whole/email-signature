@@ -1,31 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
 import map from 'lodash/map'
 
-import User from '../../user'
+import User, {
+    LinkMap,
+    Link,
+ } from '../../user'
 import { store } from '../../store'
-import EditorConfig, { FormItem } from './config'
-import { Link, LinkMap } from '../../user'
-
-export const renderLinks = (linkMap: LinkMap) => {
-    return map(map, (link, key) => {
-
-        return (
-            <label>
-                {key}:
-                &nbsp;
-                <input
-                    style={{
-                        minWidth: '200px',
-                    }}
-                    type='text'
-                    name={key}
-                    value={link.value}
-                    onChange={link.handleChange}
-                />
-            </label>
-        )
-    })
-}
 
 export default () => {
     let state: User
@@ -44,8 +24,8 @@ export default () => {
     useEffect(
         () => {
             dispatch({
-                type: 'user_link_mod',
-
+                type: 'user_links_mod',
+                links: links,
             })
         },
         [links],
@@ -54,12 +34,32 @@ export default () => {
     const handleChange = (e) => {
         setState({
             ...links,
-            [e.target.name]: e.target.value,
+            [e.target.name]: {
+                ...links[e.target.name],
+                url: e.target.value,
+            },
         })
     }
 
+    map(links, (link: Link, key) => {
+        link.onChange = handleChange
+    })
 
-    return (
-        renderLinks()
-    )
+    return map(links, (link: Link, key: string) => {
+        return (
+            <label key={key}>
+                {key}:
+                &nbsp;
+                <input
+                    style={{
+                        minWidth: '200px',
+                    }}
+                    type='text'
+                    name={key}
+                    value={link.url}
+                    onChange={link.onChange}
+                />
+            </label>
+        )
+    })
 }

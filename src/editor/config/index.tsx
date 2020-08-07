@@ -13,7 +13,7 @@ export class FormItem {
 
     renderFormItem() {
         return (
-            <label>
+            <label key={this.label}>
                 {this.label}:
                 &nbsp;
                 <input

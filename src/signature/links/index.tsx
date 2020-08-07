@@ -4,8 +4,6 @@ import map from 'lodash/map'
 import { store } from '../../store'
 
 export const renderLink = (imageUrl: string, url: string) => {
-    console.log(imageUrl, url)
-
     return (
         <td key={url}
             style={{
@@ -30,8 +28,6 @@ export const renderLink = (imageUrl: string, url: string) => {
 
 export const Links = () => {
     const { state } : { state: User } = useContext(store)
-
-    console.log(state.links)
 
     return (
         <tr>
