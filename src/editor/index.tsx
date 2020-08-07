@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
+import map from 'lodash/map'
 
 import User from '../user'
 import { store } from '../store'
+import EditorConfig, { FormItem } from './config'
 
 export default () => {
     const { state, dispatch } = useContext(store)
@@ -31,62 +33,44 @@ export default () => {
         })
     }
 
+    const editorConfig = new EditorConfig()
+    const {
+        email,
+        motto,
+        name,
+        phone,
+        title,
+        website,
+    } = editorConfig
+
+    email.handleChange = handleChange
+    email.value = user.email
+
+    motto.handleChange = handleChange
+    motto.value = user.motto
+
+    name.handleChange = handleChange
+    name.value = user.name
+
+    phone.handleChange = handleChange
+    phone.value = user.phone
+
+    title.handleChange = handleChange
+    title.value = user.title
+
+    website.handleChange = handleChange
+    website.value = user.website
+
     return (
         <div className="editor">
-            <label>
-                Name:
-                <input
-                    type="text"
-                    name="name"
-                    value={user.name}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Title
-                <input
-                    type="text"
-                    name="title"
-                    value={user.title}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Motto:
-                <input
-                    type="text"
-                    name="motto"
-                    value={user.motto}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Phone:
-                <input
-                    type="tel"
-                    name="phone"
-                    value={user.phone}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Email:
-                <input
-                    type="email"
-                    name="email"
-                    value={user.email}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Website:
-                <input
-                    type="url"
-                    name="website"
-                    value={user.website}
-                    onChange={handleChange}
-                />
-            </label>
+            {
+                map(
+                    editorConfig,
+                    (item: FormItem, key) => {
+                        return item.renderFormItem()
+                    }
+                )
+            }
         </div>
     )
 }

@@ -3,6 +3,8 @@ type LinkType = 'Facebook' | 'Twitter' | 'Instagram' | 'Blog'
 export class Link {
     imageUrl: string = ''
     url: string = ''
+    onChange: Function = () => {}
+    value = ''
 
     constructor({
         url,
@@ -32,7 +34,7 @@ export class Link {
     }
 }
 
-class LinkMap {
+export class LinkMap {
     [s: string]: Link
 }
 
@@ -45,19 +47,19 @@ export default class User {
     website: string = 'https://cdbattaglia.com'
 
     links: LinkMap = {
-        facebook: new Link({
+        Facebook: new Link({
             url: 'https://www.facebook.com/cdbattags/',
             type: 'Facebook',
         }),
-        blog: new Link({
+        Blog: new Link({
             url: 'https://cdbattaglia.com/words',
             type: 'Blog',
         }),
-        instagram: new Link({
+        Instagram: new Link({
             url: 'https://www.instagram.com/cdbattags/',
             type: 'Instagram',
         }),
-        twitter: new Link({
+        Twitter: new Link({
             url: 'https://twitter.com/cdbattags',
             type: 'Twitter',
         }),

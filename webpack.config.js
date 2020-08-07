@@ -6,6 +6,7 @@ const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').def
 const { ProvidePlugin } = require('webpack')
 
 module.exports = {
+    devtool : 'inline-source-map',
     devServer: {
         contentBase: resolve('dist'),
         compress: true,

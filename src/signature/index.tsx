@@ -1,105 +1,10 @@
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
 import { useContext } from 'react'
-import map from 'lodash/map'
 
 import { store } from '../store'
-import User from '../user'
-
-const ProfilePic = (props: {
-    px: number,
-    width: number,
-}) => {
-    const options = {
-        px: 80,
-        width: 110,
-    }
-
-    Object.assign(options, props)
-
-    return (
-        <td width={options.width}>
-            <img
-                width={options.px}
-                height={options.px}
-                src="https://ci4.googleusercontent.com/proxy/E-z1dAbsoHA2R53V4X_OHrQ0NW9wcUk9IsJb5230x63b52hx4xG_z45THv8aR6KYLlpsc-u4At-HB0PSgRR0Mk3WTh7aeCoVlBtl1qch50_1o8ijyPV2GZWkspicjYFz=s0-d-e1-ft#https://cdbattaglia.com/assets-cdbattaglia/media/images/chris_glovo_large.jpg"
-            />
-        </td>
-    )
-}
-
-type DividerType = 'Top' | 'Bottom'
-
-
-const DividerLine = (type: DividerType) => (
-    <tr>
-        <td
-            colSpan={2}
-            style={{
-                borderTop: type === 'Top' ? '1px solid rgb(0,0,0)' : '0px',
-                borderBottom: type === 'Bottom' ? '1px solid rgb(0,0,0)' : '0px',
-                height: '3px',
-            }}
-        >
-        </td>
-    </tr>
-)
-
-const renderLink = (imageUrl: string, url: string) => {
-    console.log(imageUrl, url)
-
-    return (
-        <td style={{
-            paddingRight: '5px',
-        }}>
-            <a
-                href={url}
-                style={{
-                    float: 'left',
-                }}
-                target="_blank"
-            >
-                <img
-                    height="28"
-                    src={imageUrl}
-                />
-            </a>
-        </td>
-    )
-}
-
-const Links = () => {
-    const { state } : { state: User } = useContext(store)
-
-    console.log(state.links)
-
-    return (
-        <tr>
-            <td style={{
-                padding: '12px 0px 0px',
-                letterSpacing: '0.6px',
-                fontSize: '14px'
-            }}>
-                Find me:
-            </td>
-            <td
-                style={{
-                    padding: '10px 0px 0px'
-                }}>
-                <tr>
-                    {
-                        map(
-                            state.links,
-                            (link, key) => renderLink(
-                                link.imageUrl,
-                                link.url
-                            ),
-                        )
-                    }
-                </tr>
-            </td>
-        </tr>
-    )
-}
+import AccentPic from './accent-pic'
+import { Links } from './links'
+import { DividerLine } from './utils'
 
 const UserInfo = () => {
     const { state } = useContext(store)
@@ -200,7 +105,7 @@ export default (props: {}) => {
                 <tbody>
                     {DividerLine('Top')}
                     <tr>
-                        {ProfilePic()}
+                        {AccentPic()}
                         {UserInfo()}
                     </tr>
                     {DividerLine('Bottom')}
